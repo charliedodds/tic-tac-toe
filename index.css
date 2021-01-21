@@ -117,18 +117,15 @@ main {
   margin: 0.5rem;
 }
 
-.btn {
+.reset-btn {
+  background-color: #eee;
+  color: #151515;
+  box-shadow: 0 0 20px #eeeeee33;
   cursor: pointer;
   font-size: 1.75rem;
   padding: 0.75rem 1.5rem;
   font-family: inherit;
   border-radius: 2.5rem;
-}
-
-.reset-btn {
-  background-color: #eee;
-  color: #151515;
-  box-shadow: 0 0 20px #eeeeee33;
 }
 
 #instructions {
@@ -143,6 +140,11 @@ main {
 .start-btn {
   background-color: #151515;
   color: #eee;
+  cursor: pointer;
+  font-size: 1.75rem;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  border-radius: 2.5rem;
 }
 
 @media (min-width: 426px) {
