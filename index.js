@@ -5,30 +5,57 @@ const GameModule = (() => {
   let isGameOver = false;
   let turn = 'X';
 
+  const resetWinner = () => {
+    winner = null;
+  };
+
   const setWinner = (player) => {
     winner = player;
     setWinState();
   };
 
   const createWinMessage = () => {
-    let winMsg = `${turn}'s won!`;
-    let congrats = document.createElement('h3');
-    congrats.textContent = 'Congratulations!';
-    let winningPara = document.createElement('p');
-    winningPara.textContent = winMsg;
-    const winDiv = document.createElement('div');
-    winDiv.classList.add('winning-message');
-    winDiv.appendChild(congrats);
-    winDiv.appendChild(winningPara);
+    const endDiv = document.createElement('div');
+    endDiv.classList.add('end-message');
+    if (winner) {
+      const winMsg = `${turn}'s won!`;
+      const congrats = document.createElement('h3');
+      congrats.textContent = 'Congratulations!';
+      const winningPara = document.createElement('p');
+      winningPara.textContent = winMsg;
+      endDiv.appendChild(congrats);
+      endDiv.appendChild(winningPara);
+    } else {
+      const drawMsg = "It's a draw!";
+      const draw = document.createElement('h3');
+      draw.textContent = drawMsg;
+      endDiv.appendChild(draw);
+    }
+    const resetBtn = document.createElement('button');
+    resetBtn.classList.add('reset-btn');
+    resetBtn.textContent = 'Play again?';
+    resetBtn.addEventListener('click', resetGame);
+    endDiv.appendChild(resetBtn);
     const main = document.querySelector('main');
-    main.appendChild(winDiv);
+    main.appendChild(endDiv);
   };
 
-  const setWinState = () => {
+  const removeEmptyCellClasses = () => {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell) => {
       cell.classList.remove('cell-empty');
     });
+  };
+
+  const addEmptyCellClasses = () => {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach((cell) => {
+      cell.classList.add('cell-empty');
+    });
+  };
+
+  const setWinState = () => {
+    removeEmptyCellClasses();
     createWinMessage();
   };
 
@@ -50,12 +77,20 @@ const GameModule = (() => {
     }
   };
 
+  const hideEndMsg = () => {
+    const main = document.querySelector('main');
+    const endDiv = document.querySelector('.end-message');
+    main.removeChild(endDiv);
+  };
+
   const resetGame = () => {
+    hideEndMsg();
     resetBoardArray();
     clearGameBoard();
     setTurn('X');
-    setWinner(null);
+    resetWinner();
     setGameOver(false);
+    addEmptyCellClasses();
   };
 
   const swapTurn = () => {
@@ -132,7 +167,7 @@ const GameModule = (() => {
       let newCell = document.createElement('div');
       newCell.classList.add('cell');
       newCell.classList.add('cell-empty');
-      newCell.classList.add(`cell-${idx}`);
+      // newCell.classList.add(`cell-${idx}`);
       main.appendChild(newCell);
     });
     body.appendChild(main);
@@ -156,6 +191,16 @@ const GameModule = (() => {
     });
   };
 
+  const startGame = () => {
+    const body = document.body;
+    const instructions = document.querySelector('#instructions');
+    body.removeChild(instructions);
+    createGameBoard();
+  };
+
+  const startBtn = document.querySelector('.start-btn');
+  startBtn.addEventListener('click', startGame);
+
   return {
     setTurn,
     checkBoard,
@@ -169,5 +214,3 @@ const Player = (marker) => {
     // setTurn to next marker
   };
 };
-
-GameModule.createGameBoard();
