@@ -137,6 +137,7 @@ button {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  padding: 1rem;
 }
 
 .start-btn {
