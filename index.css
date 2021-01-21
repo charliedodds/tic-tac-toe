@@ -19,8 +19,16 @@ body {
 body {
   background-color: #eee;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
+  font-size: 1.6rem;
+  text-align: center;
+  font-family: 'Potta One', cursive;
+}
+
+header * {
+  margin: 0;
 }
 
 main {
@@ -34,6 +42,8 @@ main {
   flex-wrap: wrap;
   align-content: center;
   box-shadow: 0 0 20px black;
+  color: white;
+  font-size: 6rem;
 }
 
 .cell {
@@ -48,6 +58,7 @@ main {
 
 .cell-empty:hover {
   background-color: #202020;
+  cursor: pointer;
 }
 
 .cell:nth-of-type(2),
@@ -78,4 +89,13 @@ main {
 
 .cell:nth-of-type(9) {
   border-radius: 0 0 2.5rem 0;
+}
+
+.winning-message {
+  z-index: 10;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+  color: white;
 }
