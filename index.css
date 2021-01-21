@@ -92,7 +92,6 @@ main {
 }
 
 .end-message {
-  opacity: 0.25;
   z-index: 10;
   display: flex;
   position: fixed;
@@ -112,10 +111,6 @@ main {
   border-radius: 2rem;
   box-shadow: 0 0 20px #eeeeee33;
   transition: 500ms;
-}
-
-.end-message:hover {
-  opacity: 1;
 }
 
 .end-message > * {
@@ -147,4 +142,25 @@ button {
 .start-btn {
   background-color: #151515;
   color: #eee;
+}
+
+@media (min-width: 426px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .end-message {
+    opacity: 0.25;
+  }
+  .end-message:hover {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 20px;
+  }
 }
