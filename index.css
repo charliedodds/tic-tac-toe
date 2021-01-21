@@ -93,9 +93,25 @@ main {
 
 .winning-message {
   z-index: 10;
+  display: flex;
   position: fixed;
+  width: 25rem;
+  height: 15rem;
   top: 50%;
   left: 50%;
-  background-color: black;
-  color: white;
+  margin-bottom: -7.5rem;
+  margin-left: -12.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #151515;
+  color: #eee;
+  font-size: 2rem;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 0 20px #eeeeee33;
+}
+
+.winning-message > * {
+  margin: 1rem;
 }
