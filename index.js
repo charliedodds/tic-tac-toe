@@ -1,23 +1,21 @@
-const GameModule = (() => {
-  const board = [null, null, null, null, null, null, null, null, null];
-
-  let winner = null;
+const GameFlow = (() => {
+  let _winner = null;
   let isGameOver = false;
   let turn = 'X';
 
-  const resetWinner = () => {
-    winner = null;
+  const _resetWinner = () => {
+    _winner = null;
   };
 
   const setWinner = (player) => {
-    winner = player;
-    setWinState();
+    _winner = player;
+    _setWinState();
   };
 
-  const createWinMessage = () => {
+  const _createWinMessage = () => {
     const endDiv = document.createElement('div');
     endDiv.classList.add('end-message');
-    if (winner) {
+    if (_winner) {
       const winMsg = `${turn}'s won!`;
       const congrats = document.createElement('h3');
       congrats.textContent = 'Congratulations!';
@@ -40,6 +38,66 @@ const GameModule = (() => {
     main.appendChild(endDiv);
   };
 
+  const _setWinState = () => {
+    GameBoard.removeEmptyCellClasses();
+    _createWinMessage();
+  };
+
+  const setGameOver = (boolean) => {
+    isGameOver = boolean;
+  };
+
+  const _hideEndMsg = () => {
+    const main = document.querySelector('main');
+    const endDiv = document.querySelector('.end-message');
+    main.removeChild(endDiv);
+  };
+
+  const resetGame = () => {
+    _hideEndMsg();
+    GameBoard.resetBoardArray();
+    GameBoard.clearGameBoard();
+    setTurn('X');
+    _resetWinner();
+    setGameOver(false);
+    GameBoard.addEmptyCellClasses();
+  };
+
+  const swapTurn = () => {
+    if (GameFlow.turn === 'X') {
+      GameFlow.turn = 'O';
+    } else {
+      GameFlow.turn = 'X';
+    }
+  };
+
+  const setTurn = (nextTurn) => {
+    turn = nextTurn;
+  };
+
+  const _startGame = () => {
+    const body = document.body;
+    const instructions = document.querySelector('#instructions');
+    body.removeChild(instructions);
+    GameBoard.createGameBoard();
+  };
+
+  const startBtn = document.querySelector('.start-btn');
+  startBtn.addEventListener('click', _startGame);
+
+  return {
+    turn,
+    setGameOver,
+    isGameOver,
+    setTurn,
+    setWinner,
+    swapTurn,
+  };
+})();
+
+const GameBoard = (() => {
+  const board = [null, null, null, null, null, null, null, null, null];
+
   const removeEmptyCellClasses = () => {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell) => {
@@ -52,15 +110,6 @@ const GameModule = (() => {
     cells.forEach((cell) => {
       cell.classList.add('cell-empty');
     });
-  };
-
-  const setWinState = () => {
-    removeEmptyCellClasses();
-    createWinMessage();
-  };
-
-  const setGameOver = (boolean) => {
-    isGameOver = boolean;
   };
 
   const resetBoardArray = () => {
@@ -77,52 +126,21 @@ const GameModule = (() => {
     }
   };
 
-  const hideEndMsg = () => {
-    const main = document.querySelector('main');
-    const endDiv = document.querySelector('.end-message');
-    main.removeChild(endDiv);
-  };
-
-  const resetGame = () => {
-    hideEndMsg();
-    resetBoardArray();
-    clearGameBoard();
-    setTurn('X');
-    resetWinner();
-    setGameOver(false);
-    addEmptyCellClasses();
-  };
-
-  const swapTurn = () => {
-    switch (turn) {
-      case 'X':
-        turn = 'O';
-        break;
-      case 'O':
-        turn = 'X';
-        break;
-    }
-  };
-
-  const setTurn = (nextTurn) => {
-    turn = nextTurn;
-  };
-
   const checkBoard = () => {
     if (checkRows() || checkColumns() || checkDiagonals() || checkDraw()) {
-      setGameOver(true);
+      GameFlow.setGameOver(true);
     }
   };
 
   const checkRows = () => {
     if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[0];
     } else if (board[3] && board[3] === board[4] && board[4] === board[5]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[3];
     } else if (board[6] && board[6] === board[7] && board[7] === board[8]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[6];
     }
     return false;
@@ -130,13 +148,13 @@ const GameModule = (() => {
 
   const checkColumns = () => {
     if (board[0] && board[0] === board[3] && board[3] === board[6]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[0];
     } else if (board[1] && board[1] === board[4] && board[4] === board[7]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[1];
     } else if (board[2] && board[2] === board[5] && board[5] === board[8]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[2];
     }
     return false;
@@ -144,10 +162,10 @@ const GameModule = (() => {
 
   const checkDiagonals = () => {
     if (board[0] && board[0] === board[4] && board[4] === board[8]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[0];
     } else if (board[2] && board[2] === board[4] && board[4] === board[6]) {
-      setWinner(turn);
+      GameFlow.setWinner(GameFlow.turn);
       return board[2];
     }
     return false;
@@ -155,8 +173,8 @@ const GameModule = (() => {
 
   const checkDraw = () => {
     if (board.every((v) => !!v)) {
-      setGameOver(true);
-      setWinner(null);
+      GameFlow.setGameOver(true);
+      GameFlow.setWinner(null);
     }
   };
 
@@ -174,16 +192,6 @@ const GameModule = (() => {
     addBoardFunctionality();
   };
 
-  function takeTurn(idx, e) {
-    if (this.textContent === '' && board[idx] === null && !isGameOver) {
-      this.textContent = turn;
-      this.classList.remove('cell-empty');
-      board[idx] = turn;
-      checkBoard();
-      swapTurn();
-    }
-  }
-
   const addBoardFunctionality = () => {
     const cells = document.querySelectorAll('.cell');
     cells.forEach(function (cell, idx) {
@@ -191,18 +199,28 @@ const GameModule = (() => {
     });
   };
 
-  const startGame = () => {
-    const body = document.body;
-    const instructions = document.querySelector('#instructions');
-    body.removeChild(instructions);
-    createGameBoard();
-  };
-
-  const startBtn = document.querySelector('.start-btn');
-  startBtn.addEventListener('click', startGame);
+  function takeTurn(idx, e) {
+    console.log(idx);
+    console.log(e);
+    if (
+      this.textContent === '' &&
+      board[idx] === null &&
+      !GameFlow.isGameOver
+    ) {
+      this.textContent = GameFlow.turn;
+      this.classList.remove('cell-empty');
+      board[idx] = GameFlow.turn;
+      checkBoard();
+      GameFlow.swapTurn();
+    }
+  }
 
   return {
-    setTurn,
+    board,
+    removeEmptyCellClasses,
+    addEmptyCellClasses,
+    resetBoardArray,
+    clearGameBoard,
     checkBoard,
     createGameBoard,
   };
