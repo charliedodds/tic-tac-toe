@@ -72,7 +72,7 @@ const GameFlow = (() => {
   };
 
   const setTurn = (nextTurn) => {
-    turn = nextTurn;
+    GameFlow.turn = nextTurn;
   };
 
   const _startGame = () => {
@@ -89,7 +89,6 @@ const GameFlow = (() => {
     turn,
     setGameOver,
     isGameOver,
-    setTurn,
     setWinner,
     swapTurn,
   };
@@ -200,8 +199,6 @@ const GameBoard = (() => {
   };
 
   function takeTurn(idx, e) {
-    console.log(idx);
-    console.log(e);
     if (
       this.textContent === '' &&
       board[idx] === null &&
@@ -216,12 +213,10 @@ const GameBoard = (() => {
   }
 
   return {
-    board,
     removeEmptyCellClasses,
     addEmptyCellClasses,
     resetBoardArray,
     clearGameBoard,
-    checkBoard,
     createGameBoard,
   };
 })();
