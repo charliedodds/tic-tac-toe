@@ -207,10 +207,3 @@ const GameModule = (() => {
     createGameBoard,
   };
 })();
-
-const Player = (marker) => {
-  const takeTurn = (marker) => {
-    // ADD MARKER TO DIV
-    // setTurn to next marker
-  };
-};
